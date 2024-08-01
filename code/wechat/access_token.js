@@ -12,10 +12,13 @@ class API {
             return new Promise((resolve, reject) => {
                 fs.writeFile('access_token.txt', JSON.stringify(token), err => {
                     if (err) {
-                        return reject(err)
+                        console.error('写入文件失败:', err); // 增加错误日志
+                        return reject(err);
                     }
-                    resolve('写入access_token成功')
-                })
+                    console.log('写入access_token成功:', token); // 确认写入成功
+                    resolve('写入access_token成功');
+                });
+           
             })
 
         }
@@ -32,6 +35,7 @@ class API {
     }
     //发起请求，获取access_token
     async get_access_token() {
+        console.log('进来了')
         let token = {}
         const res = await axios.get(`${this.prefix}${this.appID}&secret=${this.appSecret}`)
         // console.log(res.data)
@@ -61,15 +65,16 @@ class API {
     }
     //验证access_token是否过期
     isValid({ accessToken, expiresTime }) {
-        return !!accessToken && Date.now < expiresTime;
+        console.log(!!accessToken && Date.now() < expiresTime)
+        return !!accessToken && Date.now() < expiresTime;
     }
 
     //创建自定义菜单
-    async createMenu(menu){
-        //获取token
-        const {accessToken} = await this.ensureAccessToken()
-        const res = await axios.post(`https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${accessToken}`,menu)
-        return res.data
-    }
+    // async createMenu(menu){
+    //     //获取token
+    //     const {accessToken} = await this.ensureAccessToken()
+    //     const res = await axios.post(`https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${accessToken}`,menu)
+    //     return res.data
+    // }
 }
 module.exports = API;

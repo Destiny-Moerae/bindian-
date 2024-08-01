@@ -6,14 +6,18 @@ const config = require('./config');
 const API = require('./wechat/access_token');
 const processArticles = require('./wechat/handleArticles');
 const { connectDB } = require('./wechat/db');
+const { format } = require('mysql2');
 
 const app = new Koa();
 const api = new API(config);
 
+const { accessToken } = api.ensureAccessToken()
 app.use(wechat(config).middleware(async (message, ctx) => {
     const response = await processArticles(api, message.Content);
     return response;
 }));
+
+
 connectDB().then(() => {
     console.log('数据库连接成功');
 }).catch(err => {

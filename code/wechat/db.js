@@ -12,12 +12,24 @@ const connectDB = async () => {
     return connection;
 };
 
+const findArticleByTitle = async (title) => {
+    const query = 'SELECT * FROM article WHERE title = ?';
+    const values = [title];
+    const conn = await connectDB();
+    try {
+        const [results] = await conn.execute(query, values);
+        return results[0];
+    } catch (err) {
+        throw new Error(`Failed to find article by title: ${err.message}`);
+    }
+};
+
 // 向 article_text 表中插入数据
 const insertArticleText = async (content,articleId,text_flag) => {
     const query = 'INSERT INTO article_text (content, article_id,text_flag) VALUES (CONVERT(? USING utf8mb4), ?,?)';;
     const values = [content,articleId,text_flag];
     const conn = await connectDB();
-    await conn.execute(query, values);
+    // await conn.execute(query, values);
     try {
         const [results] = await conn.execute(query, values);
         return results;
@@ -42,5 +54,6 @@ const insertArticle = async (title, summary, img, date, type) => {
 module.exports = {
     connectDB,
     insertArticleText,
-    insertArticle
+    insertArticle,
+    findArticleByTitle
 };

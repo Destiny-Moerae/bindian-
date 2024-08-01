@@ -1,3 +1,4 @@
+//微信图片有限制，需要先将微信图片保存到本地
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');

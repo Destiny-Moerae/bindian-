@@ -32,7 +32,7 @@ async function updateNews(accessToken, news, newsIndex) {
         if (existingArticle) {
             return {
                 type: 'text',
-                content: '文章已存在，如要更新往期文章请输入‘查询往期文章’'
+                content: '文章已存在，如要更新往期文章请输入‘查询往期文章'
             };
         }
 

@@ -13,6 +13,7 @@ const api = new API(config);
 
 const { accessToken } = api.ensureAccessToken()
 app.use(wechat(config).middleware(async (message, ctx) => {
+    console.log('message',message)
     const response = await processArticles(api, message.Content);
     return response;
 }));

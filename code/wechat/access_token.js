@@ -35,7 +35,6 @@ class API {
     }
     //发起请求，获取access_token
     async get_access_token() {
-        console.log('进来了')
         let token = {}
         const res = await axios.get(`${this.prefix}${this.appID}&secret=${this.appSecret}`)
         // console.log(res.data)
@@ -65,7 +64,6 @@ class API {
     }
     //验证access_token是否过期
     isValid({ accessToken, expiresTime }) {
-        console.log(!!accessToken && Date.now() < expiresTime)
         return !!accessToken && Date.now() < expiresTime;
     }
 
